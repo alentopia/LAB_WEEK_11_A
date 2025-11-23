@@ -19,18 +19,18 @@ class MainActivity : AppCompatActivity() {
 
         // Get the preference wrapper from the application
         val preferenceWrapper = (application as
-                PreferenceApplication).preferenceWrapper
+                SettingsApplication).settingsStore
         // Create the view model instance with the preference wrapper as the constructor parameter
-// To pass the preference wrapper to the view model, we need to use a view model factory
+        // To pass the preference wrapper to the view model, we need to use a view model factory
         val preferenceViewModel = ViewModelProvider(this, object :
             ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return PreferenceViewModel(preferenceWrapper) as T
+                return SettingsViewModel(preferenceWrapper) as T
             }
-        })[PreferenceViewModel::class.java]
+        })[SettingsViewModel::class.java]
 
         // Observe the text live data
-        preferenceViewModel.getText().observe(this
+        preferenceViewModel.textLiveData.observe(this
         ) {
             // Update the text view when the text live data changes
             findViewById<TextView>(
